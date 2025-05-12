@@ -2,19 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { openDB } from 'idb';
-import { useNavigate, useParams } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
-
-// Cria o banco e store
-export const initDB = async () => {
-    return openDB('meuBanco', 1, {
-      upgrade(db) {
-        if (!db.objectStoreNames.contains('orcamentos')) {
-          db.createObjectStore('orcamentos', { keyPath: 'key' });
-        }
-      },
-    });
-  };
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { initDB } from '@/lib/db'; // ou o caminho correto
 
 export default function Formulario() {
     const [dados, setDados] = useState<{
@@ -58,9 +48,10 @@ export default function Formulario() {
         fetchData();
       }, []);
 
-    const { id } = useParams();
+    const params = useParams();
+    const id = params.id;
 
-    const navigate = useNavigate();
+    const router = useRouter();
 
   const [orcamento, setOrcamento] = useState({ nome: "" });
   const [observacao, setObservacao] = useState("");
