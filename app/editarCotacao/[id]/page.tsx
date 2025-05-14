@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { openDB } from 'idb';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { initDB } from '@/lib/db'; // ou o caminho correto
