@@ -7,8 +7,8 @@ import { initDB } from '@/lib/db'; // ou o caminho correto
 
 export default function Formulario() {
     const [dados, setDados] = useState<{
-        valor: string | number | readonly string[] | undefined; cod: string; descricao: string; marca: string; refFornecedor: string; unidade: string; quantidade: number; id: number; 
-}[]>([]);
+      valor: string | number | readonly string[] | undefined; cod: string; descricao: string; marca: string; refFornecedor: string; unidade: string; quantidade: number; id: number; 
+    }[]>([]);
 
       const [fornecedor, setFornecedor] = useState("")
 
@@ -46,13 +46,26 @@ export default function Formulario() {
         };
         fetchData();
       }, []);
+      
+      const criarCotacao = async () => {
+        const db = await initDB();
+
+        const cotacao = {
+          orcamento: id,
+          fornecedor: fornecedor,
+          itens: dados,
+          observacao: observacao,
+        };
+
+        await db.put('cotacao', { key: Math.floor((Date.now() * Math.random()) % 10000), dados: cotacao });
+        await router.push('/')
+      }
 
     const params = useParams();
     const id = params.id;
 
     const router = useRouter();
 
-  const [orcamento, setOrcamento] = useState({ nome: "" });
   const [observacao, setObservacao] = useState("");
 
   return (
@@ -129,6 +142,13 @@ export default function Formulario() {
         className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black mt-1"
         placeholder="Observação"
       />
+
+        <button
+          onClick={() => criarCotacao()}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Salvar
+        </button>
 
         {/* <button
           onClick={() => criarOrcamento()}

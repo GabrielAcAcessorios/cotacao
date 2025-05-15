@@ -89,7 +89,7 @@ export default function Formulario() {
 
       <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
         <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">ORÇAMENTO DE COMPRA: {id}</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">ORÇAMENTO DE COMPRA:</label>
             <input
               type="text"
               name="nome"

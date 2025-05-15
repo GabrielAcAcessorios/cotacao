@@ -99,6 +99,13 @@ const router = useRouter();
                             >
                             Gerar Cotação
                         </button>
+
+                        <button
+                            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                            onClick={() => router.push(`/verCotacao/${item.key}`)}
+                            >
+                            Visualizar Cotação
+                        </button>
                     </div>
                   </td>
 
