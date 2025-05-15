@@ -140,7 +140,7 @@ export default function Formulario() {
                             item.dados.itens
                                 .reduce((acc: number, item: {
                                     quantidade: string; valor: any 
-}) => {
+                                    }) => {
                                 let valorStr = '';
 
                                 if (typeof item.valor === 'string') {
@@ -174,22 +174,6 @@ export default function Formulario() {
 
           </div>
         </div>
-
-      
-
-        <button
-          onClick={() => criarCotacao()}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Salvar
-        </button>
-
-        {/* <button
-          onClick={() => criarOrcamento()}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Salvar
-        </button> */}
     </div>
   );
 }
