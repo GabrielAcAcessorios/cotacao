@@ -126,36 +126,48 @@ export default function Formulario() {
                                 <td className="py-3 px-4 border-b text-black">{item.unidade}</td>
                                 <td className="py-3 px-4 border-b text-black">{item.quantidade}</td>
                                 <td className="py-3 px-4 border-b text-black">{item.valor}</td>
-                                <td className="py-3 px-4 border-b text-black">
-                                    {typeof item.valor === 'string'
-                                        ? (Number(item.valor.replace(',', '.')) * Number(item.quantidade ?? 0)).toFixed(2)
-                                        : String(item.valor)}
+                                <td className="py-3 px-4 border-b text-black"> 
+                                {(() => {
+                                    const quantidade = Number(item.quantidade ?? 0);
+                                    const valor = typeof item.valor === 'string'
+                                    ? Number(item.valor.replace(',', '.'))
+                                    : typeof item.valor === 'number' || typeof item.valor === 'bigint'
+                                        ? Number(item.valor)
+                                        : 0;
+
+                                    const total = valor * quantidade;
+
+                                    return total.toLocaleString('pt-BR', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                    });
+                                })()}
                                 </td>
                             </tr>
                             ))}
                         </tbody>
                         </table>
                         <p className="text-black text-right my-3">
-                            Valor Total: {
+                        Valor Total: {
                             item.dados.itens
-                                .reduce((acc: number, item: {
-                                    quantidade: string; valor: any 
-                                    }) => {
+                            .reduce((acc: number, item: {
+                                quantidade: string;
+                                valor: any;
+                            }) => {
                                 let valorStr = '';
 
                                 if (typeof item.valor === 'string') {
-                                    valorStr = (Number(item.valor.replace(',', '.')) * Number(item.quantidade)).toString();
+                                valorStr = (Number(item.valor.replace(',', '.')) * Number(item.quantidade)).toString();
                                 } else if (typeof item.valor === 'number' || typeof item.valor === 'bigint') {
-                                    valorStr = String(item.valor);
+                                valorStr = (Number(item.valor) * Number(item.quantidade)).toString();
                                 } else {
-                                    valorStr = '0';
+                                valorStr = '0';
                                 }
 
                                 return acc + Number(valorStr);
-                                }, 0)
-                                .toFixed(2) // ✅ arredonda com 2 casas decimais
-                            }
-
+                            }, 0)
+                            .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) // ✅ formata como R$ 1.000,00
+                        }
                         </p>
                     </div>
                     <label className="block text-sm font-medium text-gray-700 mt-2">Observação</label>
