@@ -173,7 +173,7 @@ export default function Formulario() {
                     <label className="block text-sm font-medium text-gray-700 mt-2">Observação</label>
                     <input
                         type="text"
-                        value={observacao}
+                        value={item.dados.observacao}
                         // onChange={(e) => setObservacao(e.target.value)}
                         className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black mt-1"
                         placeholder="Observação"
