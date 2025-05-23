@@ -85,7 +85,7 @@ export default function Formulario() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-white h-screen">
-      <h2 className="text-2xl font-bold mb-6 text-black">Nova Cotação</h2>
+      <h2 className="text-2xl font-bold mb-6 text-black">Editar Cotação</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
         <div>
