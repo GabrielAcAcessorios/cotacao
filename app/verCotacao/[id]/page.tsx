@@ -137,10 +137,7 @@ export default function Formulario() {
 
                                     const total = valor * quantidade;
 
-                                    return total.toLocaleString('pt-BR', {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
-                                    });
+                                    return total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
                                 })()}
                                 </td>
                             </tr>

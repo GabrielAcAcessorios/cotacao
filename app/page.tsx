@@ -50,7 +50,7 @@ const router = useRouter();
       <div className="flex items-center justify-between mb-4">
         <input
           type="text"
-          placeholder="Pesquisar por cliente ou chave..."
+          placeholder="Pesquisar por orçamento..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="border border-gray-300 rounded px-4 py-2 w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
