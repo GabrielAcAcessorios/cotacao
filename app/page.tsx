@@ -3,16 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation'; // ou 'next/router' se for pages/
 import { initDB } from '@/lib/db'; // ou o caminho correto
 
-const deletarOrcamento = async (key: string) => {
-    try {
-      const db = await initDB();
-      await db.delete('orcamentos', key);
-      console.log(`Item com a chave ${key} foi excluído.`);
-    } catch (error) {
-      console.error('Erro ao excluir o item:', error);
-    }
-  };
-
 export default function Home() {
   const [search, setSearch] = useState('');
   const [itens, setItens] = useState<{ key: any; dados: any }[]>([]);

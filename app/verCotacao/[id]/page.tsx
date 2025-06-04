@@ -165,9 +165,6 @@ export default function Formulario() {
                 </div>
             ))}
             </div>
-
-
-
           </div>
         </div>
     </div>

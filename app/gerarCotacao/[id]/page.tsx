@@ -79,7 +79,6 @@ export default function Formulario() {
               type="text"
               name="nome"
               value={id}
-            //   onChange={(e) => setOrcamento({ ...orcamento, nome: e.target.value })}
               className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
               required
             />
@@ -149,13 +148,6 @@ export default function Formulario() {
         >
           Salvar
         </button>
-
-        {/* <button
-          onClick={() => criarOrcamento()}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Salvar
-        </button> */}
     </div>
   );
 }
