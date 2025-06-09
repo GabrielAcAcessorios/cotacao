@@ -38,14 +38,60 @@ export default function Formulario() {
       };
 
       const [valores, setValores] = useState<{ key: any; dados: any }[]>([])
+
+
+        function marcarMenorValorPorIndice(dados: string | any[]) {
+        if (!Array.isArray(dados) || dados.length === 0) return [];
+
+        // Faz uma cópia profunda para evitar mutações no original
+        const novaLista = JSON.parse(JSON.stringify(dados));
+
+        const totalItens = novaLista[0].dados.itens.length;
+
+        for (let i = 0; i < totalItens; i++) {
+            let menor = Infinity;
+
+            // Encontrar o menor valor do índice i
+            novaLista.forEach((obj: { dados: { itens: any[]; }; }) => {
+            const item = obj.dados.itens[i];
+            const valorNumerico = parseFloat(item.valor.replace('.', '').replace(',', '.'));
+            if (valorNumerico < menor) {
+                menor = valorNumerico;
+            }
+            });
+
+            // Marcar menorValor = true/false para cada item
+            novaLista.forEach((obj: { dados: { itens: any[]; }; }) => {
+            const item = obj.dados.itens[i];
+            const valorNumerico = parseFloat(item.valor.replace('.', '').replace(',', '.'));
+            item.menorValor = valorNumerico === menor;
+            });
+        }
+
+        return novaLista;
+        }
+
+
+
+
+
+
+
+
+
     
       useEffect(() => {
         const fetchData = async () => {
           const orcamentos = await listarcotacoes();
-          const resultado = orcamentos.filter(item => item.dados.orcamento === id);
+          let resultado = orcamentos.filter(item => item.dados.orcamento === id);
           setValores(resultado);
+          
 
-          console.log(resultado)
+          console.log(resultado)    
+
+          console.log(marcarMenorValorPorIndice(resultado))  
+          setValores(marcarMenorValorPorIndice(resultado));  
+
         };
         fetchData();
       }, []);
@@ -87,6 +133,33 @@ export default function Formulario() {
               required
             />
             <div className="flex overflow-x-auto gap-4">
+            <div>
+
+                <div style={{ height: "80px", width: "200px" }}></div>
+
+
+                <div className="flex justify-between items-center my-4">
+                    <h1 className="text-xl font-semibold text-black">Lista de Produtos</h1>
+                </div>
+                <div className="overflow-x-auto bg-white shadow rounded">
+                    <table className="min-w-full border border-gray-200">
+                        <thead className="bg-gray-100 text-left">
+                            <tr>
+                            <th className="py-3 px-4 border-b text-black">Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {valores?.[0]?.dados?.itens?.map((item: { descricao: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }, idx: Key | null | undefined) => (
+                            <tr key={idx} className="hover:bg-gray-50">
+                                <td className="py-3 px-4 border-b text-black">{item.descricao}</td>
+
+                            </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             {valores.map((item, index) => (
                 <div key={index} className="min-w-[500px] bg-white p-4 shadow rounded border border-gray-200">
                 <label className="block text-sm font-medium text-gray-700 mb-1">FORNECEDOR:</label>
@@ -106,17 +179,21 @@ export default function Formulario() {
                     <table className="min-w-full border border-gray-200">
                     <thead className="bg-gray-100 text-left">
                         <tr>
-                        <th className="py-3 px-4 border-b text-black">Descrição</th>
+                        {/* <th className="py-3 px-4 border-b text-black">Descrição</th> */}
                         <th className="py-3 px-4 border-b text-black">Valor Unitário</th>
                         <th className="py-3 px-4 border-b text-black">Valor Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {item.dados.itens.map((item: { descricao: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; valor: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; quantidade: any; }, idx: Key | null | undefined) => (
+                        {item.dados.itens.map((item: {
+                            menorValor: any; descricao: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; valor: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; quantidade: any; 
+}, idx: Key | null | undefined) => (
                         <tr key={idx} className="hover:bg-gray-50">
-                            <td className="py-3 px-4 border-b text-black">{item.descricao}</td>
+                            {/* <td className="py-3 px-4 border-b text-black">{item.descricao}</td> */}
                             <td className="py-3 px-4 border-b text-black">{item.valor}</td>
-                            <td className="py-3 px-4 border-b text-black">
+                            <td className={`py-3 px-4 border-b ${
+                                item.menorValor ? 'text-green-600' : 'text-red-600'
+                            }`}>{item.menorValor}
                             {(() => {
                                 const quantidade = Number(item.quantidade ?? 0);
                                 const valor =
@@ -164,9 +241,10 @@ export default function Formulario() {
                 />
                 </div>
             ))}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-    </div>
+
   );
 }

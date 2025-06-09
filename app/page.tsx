@@ -114,7 +114,4 @@ const router = useRouter();
     </div>
   );
 };
-function excluirOrcamento(key: any) {
-    throw new Error("Function not implemented.");
-}
 
