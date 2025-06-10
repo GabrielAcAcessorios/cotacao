@@ -187,7 +187,7 @@ export default function Formulario() {
                     <tbody>
                         {item.dados.itens.map((item: {
                             menorValor: any; descricao: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; valor: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; quantidade: any; 
-}, idx: Key | null | undefined) => (
+                            }, idx: Key | null | undefined) => (
                         <tr key={idx} className="hover:bg-gray-50">
                             {/* <td className="py-3 px-4 border-b text-black">{item.descricao}</td> */}
                             <td className="py-3 px-4 border-b text-black">{Number((item.valor ?? '0').toString().replace(',', '.')).toLocaleString('pt-BR', {
