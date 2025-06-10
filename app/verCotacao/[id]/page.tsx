@@ -190,7 +190,10 @@ export default function Formulario() {
 }, idx: Key | null | undefined) => (
                         <tr key={idx} className="hover:bg-gray-50">
                             {/* <td className="py-3 px-4 border-b text-black">{item.descricao}</td> */}
-                            <td className="py-3 px-4 border-b text-black">{item.valor}</td>
+                            <td className="py-3 px-4 border-b text-black">{Number((item.valor ?? '0').toString().replace(',', '.')).toLocaleString('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL',
+                                })}</td>
                             <td className={`py-3 px-4 border-b ${
                                 item.menorValor ? 'text-green-600' : 'text-red-600'
                             }`}>{item.menorValor}
