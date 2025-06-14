@@ -80,27 +80,9 @@ export default function Formulario() {
     };
     fetchData();
   }, []);
-    
-  const criarCotacao = async () => {
-    const db = await initDB();
-
-    const cotacao = {
-      orcamento: id,
-      fornecedor: fornecedor,
-      itens: dados,
-      observacao: observacao,
-    };
-
-    await db.put('cotacao', { key: Math.floor((Date.now() * Math.random()) % 10000), dados: cotacao });
-    await router.push('/')
-  }
 
   const params = useParams();
   const id = params.id;
-
-  const router = useRouter();
-
-  const [observacao, setObservacao] = useState("");
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-white h-screen">

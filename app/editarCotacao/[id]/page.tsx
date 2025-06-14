@@ -28,8 +28,6 @@ export default function Formulario() {
         setDados((prev) => prev.filter((item) => item.cod !== cod));
     };
 
-    const [itens, setItens] = useState([])
-
     const params = useParams();
     const id = params.id;
 
@@ -80,8 +78,6 @@ export default function Formulario() {
       });
       setShowModal(false);
     };
-
-    const [orcamento, setOrcamento] = useState({ nome: "" });
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-white h-screen">
