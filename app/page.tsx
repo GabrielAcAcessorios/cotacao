@@ -6,7 +6,7 @@ import { initDB } from '@/lib/db'; // ou o caminho correto
 export default function Home() {
   const [search, setSearch] = useState('');
   const [itens, setItens] = useState<{ key: any; dados: any }[]>([]);
-const router = useRouter();
+  const router = useRouter();
 
   const listarOrcamentos = async () => {
     const db = await initDB();

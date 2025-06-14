@@ -6,114 +6,99 @@ import { useRouter } from 'next/navigation';
 import { initDB } from '@/lib/db'; // ou o caminho correto
 
 export default function Formulario() {
-    const [dados, setDados] = useState<{
-      valor: string | number | readonly string[] | undefined; cod: string; descricao: string; marca: string; refFornecedor: string; unidade: string; quantidade: number; id: number; 
-    }[]>([]);
+  const [dados, setDados] = useState<{
+    valor: string | number | readonly string[] | undefined; cod: string; descricao: string; marca: string; refFornecedor: string; unidade: string; quantidade: number; id: number; 
+  }[]>([]);
 
-      const [fornecedor, setFornecedor] = useState("")
+  const [fornecedor, setFornecedor] = useState("")
 
-      const listarcotacoes = async () => {
-        const db = await initDB();
-        const all = await db.getAll('cotacao');
-        return all.map(entry => ({ key: entry.key, dados: entry.dados }));
-      };
+  const listarcotacoes = async () => {
+    const db = await initDB();
+    const all = await db.getAll('cotacao');
+    return all.map(entry => ({ key: entry.key, dados: entry.dados }));
+  };
 
-      const formatarValor = (valor: string) => {
-        // Remove tudo que não for dígito
-        const apenasNumeros = valor.replace(/\D/g, "");
-      
-        // Formata para "99,99"
-        const comVirgula = (Number(apenasNumeros) / 100).toFixed(2).replace('.', ',');
-      
-        return comVirgula;
-      };
+  const formatarValor = (valor: string) => {
+    // Remove tudo que não for dígito
+    const apenasNumeros = valor.replace(/\D/g, "");
+  
+    // Formata para "99,99"
+    const comVirgula = (Number(apenasNumeros) / 100).toFixed(2).replace('.', ',');
+  
+    return comVirgula;
+  };
 
-      const atualizarValorPorCodigo = (cod: string, novoValor: any) => {
-        const valorFormatado = formatarValor(novoValor);
-        const novosDados = dados.map(item =>
-          item.cod === cod ? { ...item, valor: valorFormatado } : item
-        );
-        setDados(novosDados);
-        console.log(novosDados)
-      };
+  const atualizarValorPorCodigo = (cod: string, novoValor: any) => {
+    const valorFormatado = formatarValor(novoValor);
+    const novosDados = dados.map(item =>
+      item.cod === cod ? { ...item, valor: valorFormatado } : item
+    );
+    setDados(novosDados);
+    console.log(novosDados)
+  };
 
-      const [valores, setValores] = useState<{ key: any; dados: any }[]>([])
+  const [valores, setValores] = useState<{ key: any; dados: any }[]>([])
 
+  function marcarMenorValorPorIndice(dados: string | any[]) {
+    if (!Array.isArray(dados) || dados.length === 0) return [];
 
-        function marcarMenorValorPorIndice(dados: string | any[]) {
-        if (!Array.isArray(dados) || dados.length === 0) return [];
+    // Faz uma cópia profunda para evitar mutações no original
+    const novaLista = JSON.parse(JSON.stringify(dados));
 
-        // Faz uma cópia profunda para evitar mutações no original
-        const novaLista = JSON.parse(JSON.stringify(dados));
+    const totalItens = novaLista[0].dados.itens.length;
 
-        const totalItens = novaLista[0].dados.itens.length;
+    for (let i = 0; i < totalItens; i++) {
+      let menor = Infinity;
 
-        for (let i = 0; i < totalItens; i++) {
-            let menor = Infinity;
-
-            // Encontrar o menor valor do índice i
-            novaLista.forEach((obj: { dados: { itens: any[]; }; }) => {
-            const item = obj.dados.itens[i];
-            const valorNumerico = parseFloat(item.valor.replace('.', '').replace(',', '.'));
-            if (valorNumerico < menor) {
-                menor = valorNumerico;
-            }
-            });
-
-            // Marcar menorValor = true/false para cada item
-            novaLista.forEach((obj: { dados: { itens: any[]; }; }) => {
-            const item = obj.dados.itens[i];
-            const valorNumerico = parseFloat(item.valor.replace('.', '').replace(',', '.'));
-            item.menorValor = valorNumerico === menor;
-            });
-        }
-
-        return novaLista;
-        }
-
-
-
-
-
-
-
-
-
-    
-      useEffect(() => {
-        const fetchData = async () => {
-          const orcamentos = await listarcotacoes();
-          let resultado = orcamentos.filter(item => item.dados.orcamento === id);
-          setValores(resultado);
-          
-
-          console.log(resultado)    
-
-          console.log(marcarMenorValorPorIndice(resultado))  
-          setValores(marcarMenorValorPorIndice(resultado));  
-
-        };
-        fetchData();
-      }, []);
-      
-      const criarCotacao = async () => {
-        const db = await initDB();
-
-        const cotacao = {
-          orcamento: id,
-          fornecedor: fornecedor,
-          itens: dados,
-          observacao: observacao,
-        };
-
-        await db.put('cotacao', { key: Math.floor((Date.now() * Math.random()) % 10000), dados: cotacao });
-        await router.push('/')
+      // Encontrar o menor valor do índice i
+      novaLista.forEach((obj: { dados: { itens: any[]; }; }) => {
+      const item = obj.dados.itens[i];
+      const valorNumerico = parseFloat(item.valor.replace('.', '').replace(',', '.'));
+      if (valorNumerico < menor) {
+          menor = valorNumerico;
       }
+      });
 
-    const params = useParams();
-    const id = params.id;
+      // Marcar menorValor = true/false para cada item
+      novaLista.forEach((obj: { dados: { itens: any[]; }; }) => {
+      const item = obj.dados.itens[i];
+      const valorNumerico = parseFloat(item.valor.replace('.', '').replace(',', '.'));
+      item.menorValor = valorNumerico === menor;
+      });
+    }
 
-    const router = useRouter();
+    return novaLista;
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const orcamentos = await listarcotacoes();
+      let resultado = orcamentos.filter(item => item.dados.orcamento === id);
+      setValores(resultado);
+      
+      setValores(marcarMenorValorPorIndice(resultado));  
+    };
+    fetchData();
+  }, []);
+    
+  const criarCotacao = async () => {
+    const db = await initDB();
+
+    const cotacao = {
+      orcamento: id,
+      fornecedor: fornecedor,
+      itens: dados,
+      observacao: observacao,
+    };
+
+    await db.put('cotacao', { key: Math.floor((Date.now() * Math.random()) % 10000), dados: cotacao });
+    await router.push('/')
+  }
+
+  const params = useParams();
+  const id = params.id;
+
+  const router = useRouter();
 
   const [observacao, setObservacao] = useState("");
 

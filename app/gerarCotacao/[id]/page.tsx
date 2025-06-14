@@ -10,63 +10,63 @@ export default function Formulario() {
       valor: string | number | readonly string[] | undefined; cod: string; descricao: string; marca: string; refFornecedor: string; unidade: string; quantidade: number; id: number; 
     }[]>([]);
 
-      const [fornecedor, setFornecedor] = useState("")
+    const [fornecedor, setFornecedor] = useState("")
 
-      const listarOrcamentos = async () => {
-        const db = await initDB();
-        const all = await db.getAll('orcamentos');
-        return all.map(entry => ({ key: entry.key, dados: entry.dados }));
-      };
+    const listarOrcamentos = async () => {
+      const db = await initDB();
+      const all = await db.getAll('orcamentos');
+      return all.map(entry => ({ key: entry.key, dados: entry.dados }));
+    };
 
-      const formatarValor = (valor: string) => {
-        // Remove tudo que não for dígito
-        const apenasNumeros = valor.replace(/\D/g, "");
-      
-        // Formata para "99,99"
-        const comVirgula = (Number(apenasNumeros) / 100).toFixed(2).replace('.', ',');
-      
-        return comVirgula;
-      };
-
-      const atualizarValorPorCodigo = (cod: string, novoValor: any) => {
-        const valorFormatado = formatarValor(novoValor);
-        const novosDados = dados.map(item =>
-          item.cod === cod ? { ...item, valor: valorFormatado } : item
-        );
-        setDados(novosDados);
-        console.log(novosDados)
-      };
+    const formatarValor = (valor: string) => {
+      // Remove tudo que não for dígito
+      const apenasNumeros = valor.replace(/\D/g, "");
     
-      useEffect(() => {
-        const fetchData = async () => {
-          const orcamentos = await listarOrcamentos();
-          const resultado = orcamentos.find(item => item.key === id);
-          setDados(resultado?.dados ?? []);
-          console.log(resultado)
-        };
-        fetchData();
-      }, []);
-      
-      const criarCotacao = async () => {
-        const db = await initDB();
+      // Formata para "99,99"
+      const comVirgula = (Number(apenasNumeros) / 100).toFixed(2).replace('.', ',');
+    
+      return comVirgula;
+    };
 
-        const cotacao = {
-          orcamento: id,
-          fornecedor: fornecedor,
-          itens: dados,
-          observacao: observacao,
-        };
+    const atualizarValorPorCodigo = (cod: string, novoValor: any) => {
+      const valorFormatado = formatarValor(novoValor);
+      const novosDados = dados.map(item =>
+        item.cod === cod ? { ...item, valor: valorFormatado } : item
+      );
+      setDados(novosDados);
+      console.log(novosDados)
+    };
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        const orcamentos = await listarOrcamentos();
+        const resultado = orcamentos.find(item => item.key === id);
+        setDados(resultado?.dados ?? []);
+        console.log(resultado)
+      };
+      fetchData();
+    }, []);
+    
+    const criarCotacao = async () => {
+      const db = await initDB();
 
-        await db.put('cotacao', { key: Math.floor((Date.now() * Math.random()) % 10000), dados: cotacao });
-        await router.push('/')
-      }
+      const cotacao = {
+        orcamento: id,
+        fornecedor: fornecedor,
+        itens: dados,
+        observacao: observacao,
+      };
+
+      await db.put('cotacao', { key: Math.floor((Date.now() * Math.random()) % 10000), dados: cotacao });
+      await router.push('/')
+    }
 
     const params = useParams();
     const id = params.id;
 
     const router = useRouter();
 
-  const [observacao, setObservacao] = useState("");
+    const [observacao, setObservacao] = useState("");
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-white h-screen">

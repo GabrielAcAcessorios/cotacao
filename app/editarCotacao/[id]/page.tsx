@@ -8,21 +8,21 @@ import { initDB } from '@/lib/db'; // ou o caminho correto
 export default function Formulario() {
     const [dados, setDados] = useState<{ cod: string; descricao: string; marca: string; refFornecedor: string; unidade: string; quantidade: number; id: number; }[]>([]);
 
-      const listarOrcamentos = async () => {
-        const db = await initDB();
-        const all = await db.getAll('orcamentos');
-        return all.map(entry => ({ key: entry.key, dados: entry.dados }));
+    const listarOrcamentos = async () => {
+      const db = await initDB();
+      const all = await db.getAll('orcamentos');
+      return all.map(entry => ({ key: entry.key, dados: entry.dados }));
+    };
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        const orcamentos = await listarOrcamentos();
+        const resultado = orcamentos.find(item => item.key === id);
+        setDados(resultado?.dados ?? []);
+        console.log(resultado)
       };
-    
-      useEffect(() => {
-        const fetchData = async () => {
-          const orcamentos = await listarOrcamentos();
-          const resultado = orcamentos.find(item => item.key === id);
-          setDados(resultado?.dados ?? []);
-          console.log(resultado)
-        };
-        fetchData();
-      }, []);
+      fetchData();
+    }, []);
 
     const excluirOrcamento = (cod: string) => {
         setDados((prev) => prev.filter((item) => item.cod !== cod));
@@ -31,7 +31,7 @@ export default function Formulario() {
     const [itens, setItens] = useState([])
 
     const params = useParams();
-  const id = params.id;
+    const id = params.id;
 
     const router = useRouter();
 
@@ -48,29 +48,7 @@ export default function Formulario() {
        await router.push('/')
     }
 
-  const [form, setForm] = useState({
-    cod: "",
-    descricao: "",
-    marca: "",
-    refFornecedor: "",
-    unidade: "",
-    quantidade: 0,
-  });
-
-  const [showModal, setShowModal] = useState(false);
-
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleCreate = () => {
-    const novoItem = {
-      id: Date.now(),
-      ...form,
-    };
-    setDados((prev) => [...prev, novoItem]);
-    setForm({
+    const [form, setForm] = useState({
       cod: "",
       descricao: "",
       marca: "",
@@ -78,10 +56,32 @@ export default function Formulario() {
       unidade: "",
       quantidade: 0,
     });
-    setShowModal(false);
-  };
 
-  const [orcamento, setOrcamento] = useState({ nome: "" });
+    const [showModal, setShowModal] = useState(false);
+
+    const handleChange = (e: { target: { name: any; value: any; }; }) => {
+      const { name, value } = e.target;
+      setForm((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleCreate = () => {
+      const novoItem = {
+        id: Date.now(),
+        ...form,
+      };
+      setDados((prev) => [...prev, novoItem]);
+      setForm({
+        cod: "",
+        descricao: "",
+        marca: "",
+        refFornecedor: "",
+        unidade: "",
+        quantidade: 0,
+      });
+      setShowModal(false);
+    };
+
+    const [orcamento, setOrcamento] = useState({ nome: "" });
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-white h-screen">

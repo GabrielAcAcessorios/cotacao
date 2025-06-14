@@ -5,41 +5,41 @@ import { useRouter } from 'next/navigation';
 import { initDB } from '@/lib/db'; // ou o caminho correto
 
 export default function Formulario() {
-    const [dados, setDados] = useState([
-        { id: 1, cod: "PRD001", descricao: "Produto 1", marca: "Marca A", refFornecedor: "Fornecedor 1", unidade: "Unidade A", quantidade: 10 },
-        { id: 2, cod: "PRD002", descricao: "Produto 2", marca: "Marca B", refFornecedor: "Fornecedor 2", unidade: "Unidade B", quantidade: 20 },
-        { id: 3, cod: "PRD003", descricao: "Produto 3", marca: "Marca C", refFornecedor: "Fornecedor 3", unidade: "Unidade C", quantidade: 30 },
-        { id: 4, cod: "PRD004", descricao: "Produto 4", marca: "Marca D", refFornecedor: "Fornecedor 4", unidade: "Unidade D", quantidade: 40 },
-        { id: 5, cod: "PRD005", descricao: "Produto 5", marca: "Marca E", refFornecedor: "Fornecedor 5", unidade: "Unidade E", quantidade: 50 },
-        { id: 6, cod: "PRD006", descricao: "Produto 6", marca: "Marca F", refFornecedor: "Fornecedor 6", unidade: "Unidade F", quantidade: 60 },
-        { id: 7, cod: "PRD007", descricao: "Produto 7", marca: "Marca G", refFornecedor: "Fornecedor 7", unidade: "Unidade G", quantidade: 70 },
-        { id: 8, cod: "PRD008", descricao: "Produto 8", marca: "Marca H", refFornecedor: "Fornecedor 8", unidade: "Unidade H", quantidade: 80 },
-        { id: 9, cod: "PRD009", descricao: "Produto 9", marca: "Marca I", refFornecedor: "Fornecedor 9", unidade: "Unidade I", quantidade: 90 },
-        { id: 10, cod: "PRD010", descricao: "Produto 10", marca: "Marca J", refFornecedor: "Fornecedor 10", unidade: "Unidade J", quantidade: 100 },
-        { id: 11, cod: "PRD011", descricao: "Produto 11", marca: "Marca A", refFornecedor: "Fornecedor 11", unidade: "Unidade A", quantidade: 15 },
-        { id: 12, cod: "PRD012", descricao: "Produto 12", marca: "Marca B", refFornecedor: "Fornecedor 12", unidade: "Unidade B", quantidade: 25 },
-        { id: 13, cod: "PRD013", descricao: "Produto 13", marca: "Marca C", refFornecedor: "Fornecedor 13", unidade: "Unidade C", quantidade: 35 },
-        { id: 14, cod: "PRD014", descricao: "Produto 14", marca: "Marca D", refFornecedor: "Fornecedor 14", unidade: "Unidade D", quantidade: 45 },
-        { id: 15, cod: "PRD015", descricao: "Produto 15", marca: "Marca E", refFornecedor: "Fornecedor 15", unidade: "Unidade E", quantidade: 55 },
-        { id: 16, cod: "PRD016", descricao: "Produto 16", marca: "Marca F", refFornecedor: "Fornecedor 16", unidade: "Unidade F", quantidade: 65 },
-        { id: 17, cod: "PRD017", descricao: "Produto 17", marca: "Marca G", refFornecedor: "Fornecedor 17", unidade: "Unidade G", quantidade: 75 },
-        { id: 18, cod: "PRD018", descricao: "Produto 18", marca: "Marca H", refFornecedor: "Fornecedor 18", unidade: "Unidade H", quantidade: 85 },
-        { id: 19, cod: "PRD019", descricao: "Produto 19", marca: "Marca I", refFornecedor: "Fornecedor 19", unidade: "Unidade I", quantidade: 95 },
-        { id: 20, cod: "PRD020", descricao: "Produto 20", marca: "Marca J", refFornecedor: "Fornecedor 20", unidade: "Unidade J", quantidade: 105 },
-    ]);
+  const [dados, setDados] = useState([
+      { id: 1, cod: "PRD001", descricao: "Produto 1", marca: "Marca A", refFornecedor: "Fornecedor 1", unidade: "Unidade A", quantidade: 10 },
+      { id: 2, cod: "PRD002", descricao: "Produto 2", marca: "Marca B", refFornecedor: "Fornecedor 2", unidade: "Unidade B", quantidade: 20 },
+      { id: 3, cod: "PRD003", descricao: "Produto 3", marca: "Marca C", refFornecedor: "Fornecedor 3", unidade: "Unidade C", quantidade: 30 },
+      { id: 4, cod: "PRD004", descricao: "Produto 4", marca: "Marca D", refFornecedor: "Fornecedor 4", unidade: "Unidade D", quantidade: 40 },
+      { id: 5, cod: "PRD005", descricao: "Produto 5", marca: "Marca E", refFornecedor: "Fornecedor 5", unidade: "Unidade E", quantidade: 50 },
+      { id: 6, cod: "PRD006", descricao: "Produto 6", marca: "Marca F", refFornecedor: "Fornecedor 6", unidade: "Unidade F", quantidade: 60 },
+      { id: 7, cod: "PRD007", descricao: "Produto 7", marca: "Marca G", refFornecedor: "Fornecedor 7", unidade: "Unidade G", quantidade: 70 },
+      { id: 8, cod: "PRD008", descricao: "Produto 8", marca: "Marca H", refFornecedor: "Fornecedor 8", unidade: "Unidade H", quantidade: 80 },
+      { id: 9, cod: "PRD009", descricao: "Produto 9", marca: "Marca I", refFornecedor: "Fornecedor 9", unidade: "Unidade I", quantidade: 90 },
+      { id: 10, cod: "PRD010", descricao: "Produto 10", marca: "Marca J", refFornecedor: "Fornecedor 10", unidade: "Unidade J", quantidade: 100 },
+      { id: 11, cod: "PRD011", descricao: "Produto 11", marca: "Marca A", refFornecedor: "Fornecedor 11", unidade: "Unidade A", quantidade: 15 },
+      { id: 12, cod: "PRD012", descricao: "Produto 12", marca: "Marca B", refFornecedor: "Fornecedor 12", unidade: "Unidade B", quantidade: 25 },
+      { id: 13, cod: "PRD013", descricao: "Produto 13", marca: "Marca C", refFornecedor: "Fornecedor 13", unidade: "Unidade C", quantidade: 35 },
+      { id: 14, cod: "PRD014", descricao: "Produto 14", marca: "Marca D", refFornecedor: "Fornecedor 14", unidade: "Unidade D", quantidade: 45 },
+      { id: 15, cod: "PRD015", descricao: "Produto 15", marca: "Marca E", refFornecedor: "Fornecedor 15", unidade: "Unidade E", quantidade: 55 },
+      { id: 16, cod: "PRD016", descricao: "Produto 16", marca: "Marca F", refFornecedor: "Fornecedor 16", unidade: "Unidade F", quantidade: 65 },
+      { id: 17, cod: "PRD017", descricao: "Produto 17", marca: "Marca G", refFornecedor: "Fornecedor 17", unidade: "Unidade G", quantidade: 75 },
+      { id: 18, cod: "PRD018", descricao: "Produto 18", marca: "Marca H", refFornecedor: "Fornecedor 18", unidade: "Unidade H", quantidade: 85 },
+      { id: 19, cod: "PRD019", descricao: "Produto 19", marca: "Marca I", refFornecedor: "Fornecedor 19", unidade: "Unidade I", quantidade: 95 },
+      { id: 20, cod: "PRD020", descricao: "Produto 20", marca: "Marca J", refFornecedor: "Fornecedor 20", unidade: "Unidade J", quantidade: 105 },
+  ]);
 
-    const excluirOrcamento = (cod: string) => {
-        setDados((prev) => prev.filter((item) => item.cod !== cod));
-    };
+  const excluirOrcamento = (cod: string) => {
+      setDados((prev) => prev.filter((item) => item.cod !== cod));
+  };
 
-    const router = useRouter();
+  const router = useRouter();
 
-    const criarOrcamento = async () => {
-        const db = await initDB();
-        
-        await db.put('orcamentos', { key: orcamento.nome , dados });
-       await router.push('/')
-    }
+  const criarOrcamento = async () => {
+      const db = await initDB();
+      
+      await db.put('orcamentos', { key: orcamento.nome , dados });
+      await router.push('/')
+  }
 
   const [form, setForm] = useState({
     cod: "",
